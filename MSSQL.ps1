@@ -75,7 +75,7 @@ for($i=1; $i -le $usrCount; $i++)
     Write-Host 'GO'
 
     #If you need to change password for existing account uncomment (1) and comment (2) below:
-    #Если вам необходимо изменение пароля для существующих учетных записей расскомментируйте (1) и закомментируйте (2) ниже:
+    #Если вам необходимо изменение пароля для существующих учетных записей раскомментируйте (1) и закомментируйте (2) ниже:
     #(1):  
     #Write-Host "ALTER LOGIN [user$i] WITH PASSWORD=N'$cPwd'"
     #Write-Host 'GO'
@@ -85,6 +85,8 @@ for($i=1; $i -le $usrCount; $i++)
     #Если вам необходимо создать новые учетные записи закомментируйте выше (1) и раскомментируйте (2) ниже:
     #CHECK_EXPIRATION=OFF и CHECK_POLICY=OFF отключают политики истечение срока действия пароля и требования к его сложности
     #(2):
+    #Write-Host "DROP LOGIN [user$i]" # If you need to remove old accounts
+    #Write-Host 'GO'
     Write-Host "CREATE LOGIN [user$i] WITH PASSWORD=N'$cPwd', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF"
     Write-Host 'GO'
 
@@ -97,6 +99,17 @@ for($i=1; $i -le $usrCount; $i++)
     #Предотвращает просмотр чужих баз данных пользователем
     Write-Host "DENY VIEW ANY DATABASE TO [user$i]"
     Write-Host 'GO'
+
+    #Uncomment below for create new database for each users
+    #Раскомментируйте ниже чтобы создавать базу данных для каждого участника
+    #Write-Host "DROP DATABASE IF EXISTS [user$i]"
+    #Write-Host 'GO'
+    #
+    #Write-Host "CREATE DATABASE [user$i]"
+    #Write-Host 'GO'
+    #
+    #Write-Host "ALTER AUTHORIZATION ON DATABASE::[user$i] TO [user$i]"
+    #Write-Host 'GO'
 
     Write-Host 
     Write-Host 
